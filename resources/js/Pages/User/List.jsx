@@ -4,12 +4,12 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function List({ auth, users }) {
     const { data, meta } = users;
-    const [search, setSearch] = useState();
+    const [search, setSearch] = useState("");
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -57,7 +57,7 @@ export default function List({ auth, users }) {
                             route={route().current()}
                         ></Pagination>
 
-                        <Link href={route("register")}>
+                        <Link href={route("user.create")}>
                             <PrimaryButton>Cadastrar Usuário</PrimaryButton>
                         </Link>
                     </div>
