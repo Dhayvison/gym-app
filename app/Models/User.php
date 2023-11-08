@@ -51,4 +51,11 @@ class User extends Authenticatable
                 ->orWhere('email', 'ilike', '%' . $search . '%');
         });
     }
+
+    public function scopeRole(Builder $query, string $role)
+    {
+        $query->when($role ?? null, function (Builder $query, string $role) {
+            $query->where('role', $role);
+        });
+    }
 }
