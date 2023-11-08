@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -14,10 +15,14 @@ class UserController extends Controller
 {
     public function list(Request $request): Response
     {
+        $id = Auth::id();
+
         return Inertia::render('User/List', [
             'users' => new UserCollection(
-                User::orderBy('name')
+                User::where('id', '!=', $id)
+                    ->orderBy('name')
                     ->filter($request->only('search'))
+                    ->role('user')
                     ->paginate()
                     ->appends($request->all())
             )
