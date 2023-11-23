@@ -58,4 +58,9 @@ class User extends Authenticatable
             $query->where('role', $role);
         });
     }
+
+    public function isMember()
+    {
+        return $this->role === 'member';
+    }
 }

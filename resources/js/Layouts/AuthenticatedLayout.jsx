@@ -140,12 +140,12 @@ export default function Authenticated({ user, header, children }) {
                         >
                             Dashboard
                         </ResponsiveNavLink>
-                        <NavLink
+                        <ResponsiveNavLink
                             href={route("user.list")}
                             active={route().current("user.list")}
                         >
                             Usuários
-                        </NavLink>
+                        </ResponsiveNavLink>
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">

@@ -4,11 +4,14 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, router } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { useState } from "react";
+import UserCreateModalForm from "./Partials/UserCreateModalForm";
+import Modal from "@/Components/Modal";
 
 export default function List({ auth, users }) {
     const { data, meta } = users;
+    const [registeringUser, setRegisteringUser] = useState(false);
     const [search, setSearch] = useState("");
 
     const handleSearch = (e) => {
@@ -22,6 +25,14 @@ export default function List({ auth, users }) {
                 preserveState: true,
             }
         );
+    };
+
+    const showModalUserForm = () => {
+        setRegisteringUser(true);
+    };
+
+    const closeModal = () => {
+        setRegisteringUser(false);
     };
 
     return (
@@ -42,7 +53,7 @@ export default function List({ auth, users }) {
                             <div className="flex items-center gap-2">
                                 <TextInput
                                     type="search"
-                                    placeholder="Search..."
+                                    placeholder="Nome ou e-mail..."
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                 ></TextInput>
@@ -57,9 +68,9 @@ export default function List({ auth, users }) {
                             route={route().current()}
                         ></Pagination>
 
-                        <Link href={route("user.create")}>
-                            <PrimaryButton>Cadastrar Usuário</PrimaryButton>
-                        </Link>
+                        <PrimaryButton onClick={showModalUserForm}>
+                            Cadastrar Usuário
+                        </PrimaryButton>
                     </div>
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mt-4">
                         <div className="w-full p-4">
@@ -95,18 +106,6 @@ export default function List({ auth, users }) {
                                                 >
                                                     {user.email}
                                                 </td>
-
-                                                <td className="px-2 py-4 whitespace-no-wrap border-b ">
-                                                    {/* <Link
-                                                        className="text-indigo-600 hover:text-indigo-900"
-                                                        href={route(
-                                                            "",
-                                                            product.id
-                                                        )}
-                                                    >
-                                                        Edit
-                                                    </Link> */}
-                                                </td>
                                             </tr>
                                         );
                                     })}
@@ -116,6 +115,8 @@ export default function List({ auth, users }) {
                     </div>
                 </Container>
             </div>
+
+            <UserCreateModalForm show={registeringUser} onClose={closeModal} />
         </AuthenticatedLayout>
     );
 }

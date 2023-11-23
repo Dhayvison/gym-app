@@ -33,8 +33,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/user', [UserController::class, 'list'])->name('user.list');
     Route::get('user/create', [UserController::class, 'create'])
         ->name('user.create');
+    Route::post('/user/create', [UserController::class, 'store'])->name('user.store');
+});
 
-    Route::post('user/create', [UserController::class, 'store']);
+Route::middleware('guest')->group(function () {
 });
 
 require __DIR__ . '/auth.php';

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Registered;
 use App\Http\Resources\UserCollection;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +22,7 @@ class UserController extends Controller
                 User::where('id', '!=', $id)
                     ->orderBy('name')
                     ->filter($request->only('search'))
-                    ->role('user')
+                    ->role('member')
                     ->paginate()
                     ->appends($request->all())
             )
@@ -44,6 +44,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'role' => 'member',
         ]);
 
         event(new Registered($user));
